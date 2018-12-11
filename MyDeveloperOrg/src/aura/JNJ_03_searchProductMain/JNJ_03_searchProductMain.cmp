@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable">
+    
+    
+    <c:SearchBar />
+    <c:JNJ_02_searchProduct />
+	
+</aura:component>

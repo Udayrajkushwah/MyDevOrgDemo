@@ -1,0 +1,20 @@
+<aura:component >
+    <aura:attribute name="recordid" type="Id" />
+    <aura:attribute name="class" type="String" />
+    <aura:attribute name="cellData" type="Object" />
+    <aura:attribute name="onclick" type="String" />
+    <aura:attribute name="format" type="String" />
+    <aura:attribute name="rendered" type="boolean" />
+    	<aura:if isTrue="{!v.cellData.fieldType == 'DATETIME'}"> 
+            <lightning:formattedDateTime value="{!v.cellData.unixTime}" day="2-digit" month="2-digit" year="2-digit" hour="2-digit" minute="2-digit" hour12="false"/>
+        </aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'DATE'}"> 
+            <ui:outputDate value="{!v.cellData.fieldValue}" format="MM-DD-YYYY"/>
+        </aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'CURRENCY'}"> 
+            <lightning:formattedNumber value="{!v.cellData.currencyVal}" currencyCode="USD" currencyDisplayAs="symbol"/>
+        </aura:if>
+        <aura:if isTrue="{!(and(notequals(v.cellData.fieldType, 'CURRENCY'), notequals(v.cellData.fieldType, 'DATETIME'), notequals(v.cellData.fieldType, 'DATE')))}">
+            <aura:if isTrue="{!v.cellData.fieldType != 'DATE'}">  {!v.cellData.fieldValue}  </aura:if>
+        </aura:if>
+</aura:component>

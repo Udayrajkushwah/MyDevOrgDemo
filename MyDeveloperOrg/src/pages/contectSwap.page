@@ -1,0 +1,8 @@
+<apex:page controller="contactSwap">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!contacts}" var="o">
+            <apex:column value="{!o.Firstname}"/>
+            <apex:column value="{!o.Lastname}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

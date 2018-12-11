@@ -1,0 +1,71 @@
+<aura:component  controller="JNJ_01_AccountController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+				            access="global" >
+
+    <ltng:require styles="Resource/JNJ_Static/css/bootstrap.min.css" 
+				  scripts="Resource/JNJ_Static/js/jquery.js,/Resource/JNJ_Static/js/bootstrap.min.js"/>
+    
+<aura:attribute name="newAccount" type="Account"
+     default="{ 'sobjectType': 'Account',
+                     'Name': '',
+                     'AccountNumber': '',
+                     'AnnualRevenue': '',
+                     'Description': '',
+                     'Phone': '',
+                   }"/>
+   
+    <div class="slds-p-around--large">
+    
+        <div class="slds-page-header" style="cursor: pointer;" onclick="{!c.sectionOne}">
+            <section class="slds-clearfix">
+                <div class="slds-float--left ">
+                    <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:add" size="x-small" alternativeText="Indicates add"/>
+                    <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:dash" size="x-small" alternativeText="Indicates dash"/>
+                </div>
+                <div class="slds-m-left--large">Section 1</div>
+            </section>
+        </div>
+        
+        <div class="slds-hide slds-p-around--medium" aura:id="articleOne">
+            <div class="container-fluid">
+                <h3>Please Enter Account Information</h3>
+                <div class="form-group">
+                    <label>Name</label>
+                    <ui:inputText 
+                                  class="form-control" 
+                                  value="{!v.newAccount.Name}"
+                                  Required="true"/>
+                </div>
+                <div class="form-group">
+                    <label>Account Number</label>
+                    <ui:inputText 
+                                  class="form-control" 
+                                  value="{!v.newAccount.AccountNumber}"/>
+                </div>
+                <div class="form-group">
+                    <label>Account Revenue</label>
+                    <ui:inputText 
+                                  value="{!v.newAccount.AnnualRevenue}"/>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <ui:inputText 
+                                  class="form-control" 
+                                  value="{!v.newAccount.Description}"/>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <ui:inputText 
+                                  class="form-control" 
+                                  value="{!v.newAccount.Phone}"/>
+                </div>
+                
+            </div>
+        </div>
+    </div>    
+    
+	
+	<div class="col-md-4 text-center">
+        <ui:button class="btn btn-default" press="{!c.createAccount}">Create</ui:button>
+  </div>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<apex:page controller="UserContact">
+  <apex:PageBlock >
+  <apex:form > 
+       <apex:PageBlockTable value="{!ContactList}" var="a" id="list"> 
+         <apex:column value="{!a.FirstName}"/> 
+         <apex:column value="{!a.LastName}"/>
+        </apex:PageBlockTable> 
+     </apex:form>
+  </apex:PageBlock>
+</apex:page>

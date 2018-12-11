@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+				            access="global" >
+    
+    <div>
+        <input type="text" class="form-control"
+                placeholder="Search" onkeyup="{!c.searchKeyChange}"/>
+    </div>
+	
+</aura:component>

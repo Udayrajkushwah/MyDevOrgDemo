@@ -1,0 +1,73 @@
+<aura:component access="global">
+    <aura:attribute name="recordid" type="Id" />
+    <aura:attribute name="class" type="String" />
+    <aura:attribute access="public" name="cellData" type="Object" />
+    <aura:attribute name="onclick" type="String" />
+    <aura:attribute name="format" type="String" />
+    <aura:attribute name="rendered" type="boolean" />
+    <aura:attribute name="newRecCreation" type="Boolean"/>
+    
+    	<aura:if isTrue="{!v.cellData.fieldType == 'DATETIME'}"> 
+            <aura:if isTrue="{!v.cellData.isWritable}">
+            	<aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if><ui:inputDateTime aura:id="datetimeid" class="field" value="{!v.cellData.fieldValue}" displayDatePicker="true" langLocale="{!$Locale.language}" format="{!$Locale.dateFormat}"/>
+                <aura:set attribute="else">
+                    <lightning:formattedDateTime value="{!v.cellData.unixTime}" day="2-digit" month="2-digit" year="2-digit" hour="2-digit" minute="2-digit" hour12="false"/>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'DATE'}"> 
+            <aura:if isTrue="{!v.cellData.isWritable}">
+            	<aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if><ui:inputDate aura:id="dateFieldId" value="{!v.cellData.fieldValue}" displayDatePicker="true"/>
+            	<aura:set attribute="else">
+                    <ui:outputDate value="{!v.cellData.fieldValue}" />
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'REFERENCE'}"> 
+            <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if>&nbsp;&nbsp;{!v.cellData.fieldValue}<br/>
+        </aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'PICKLIST'}">
+            <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if>
+            <aura:if isTrue="{!and (v.cellData.isWritable, v.cellData.pickValues != null) }">
+                <ui:inputSelect value="{!v.cellData.fieldValue}">
+                    <aura:iteration var="pick" items="{!v.cellData.pickValues}">
+                        <ui:inputSelectOption text="{!pick}"/>
+                    </aura:iteration>
+                </ui:inputSelect>
+                <aura:set attribute="else">
+                	{!v.cellData.fieldValue}"
+                </aura:set>
+            </aura:if>
+    	</aura:if>
+        <aura:if isTrue="{!v.cellData.fieldType == 'TEXTAREA'}">
+            <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if>
+            <aura:if isTrue="{!(v.cellData.isWritable)}">
+                <ui:inputTextArea value="{!v.cellData.fieldValue}"/> 
+                <aura:set attribute="else">
+                	{!v.cellData.fieldValue}"
+                </aura:set>
+            </aura:if>
+    	</aura:if>
+    	<aura:if isTrue="{!v.cellData.fieldType != 'BOOLEAN'}">
+    	<aura:if isTrue="{!and(and(v.cellData.fieldType != 'REFERENCE', v.cellData.fieldType != 'DATETIME'), and(v.cellData.fieldType != 'DATE', v.cellData.fieldType != 'TEXTAREA'))}">
+            
+            <aura:if isTrue="{!v.cellData.isWritable}">
+                <!-- redundant aura:if expression function not handling multiple comparision correctly -->
+                <aura:if isTrue="{!v.cellData.fieldType != 'PICKLIST'}">
+                	<aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if><ui:inputText value="{!v.cellData.fieldValue}"/>
+                </aura:if>
+                <aura:set attribute="else">
+                   <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if> <aura:if isTrue="{!v.cellData.fieldType != 'PICKLIST'}"> {!v.cellData.fieldValue} </aura:if>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        </aura:if>    
+    	<aura:if isTrue="{!v.cellData.fieldType == 'BOOLEAN'}">
+            <aura:if isTrue="{!v.cellData.isWritable}">
+                <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if><ui:inputCheckbox value="{!v.cellData.fieldValue}"/>
+                <aura:set attribute="else">
+                   <aura:if isTrue="{!v.newRecCreation}">{!v.cellData.label}</aura:if> <aura:if isTrue="{!v.cellData.fieldType != 'PICKLIST'}"> {!v.cellData.fieldValue} </aura:if>
+                </aura:set>
+            </aura:if>
+    	</aura:if>
+</aura:component>

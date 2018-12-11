@@ -1,0 +1,7 @@
+<design:component label="DynamicDataTableGrid">
+    <design:attribute name="SectionHeaderName" label="Section header Name" description="Define Section Header Name"/>
+	<design:attribute name="sObjectName" label="sObjectName" description="Define Object API name to load data"/>
+    <design:attribute name="Queryfields" label="Queryfields" description="Define Feilds API name COMMA Seperated to be displayed"/>
+    <design:attribute name="whereClaus"  label="whereClaus" description="Define where clause if data tabel to be filtered"/>
+    <design:attribute name="parentLookup" label="parentLookup" description="Define Parent Object API name"/>
+</design:component>

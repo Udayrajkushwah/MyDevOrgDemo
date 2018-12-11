@@ -1,0 +1,10 @@
+<aura:component access="public">
+    <aura:attribute access="public" name="fieldApi" type="string" />
+    <aura:attribute access="public" name="cssClass" type="String" />
+    <aura:attribute access="public" name="fieldValue" type="Object" />
+    <aura:registerEvent name="sortEventColumn" type="c:DynamicCustomSortEvent"/>
+    
+    <span class="{!v.cssClass}" onclick="{!c.click}" title="{!v.fieldValue}">
+    	{!v.fieldValue}
+	</span>
+</aura:component>

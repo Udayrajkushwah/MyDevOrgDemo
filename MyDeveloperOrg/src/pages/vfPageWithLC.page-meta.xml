@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>42.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <label>vfPageWithLC</label>
+    <packageVersions>
+        <majorNumber>8</majorNumber>
+        <minorNumber>9</minorNumber>
+        <namespace>APXTConga4</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>2</majorNumber>
+        <minorNumber>26</minorNumber>
+        <namespace>LStore</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>11</majorNumber>
+        <minorNumber>2</minorNumber>
+        <namespace>Loop</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>2</majorNumber>
+        <minorNumber>9</minorNumber>
+        <namespace>SLCA2</namespace>
+    </packageVersions>
+</ApexPage>

@@ -1,0 +1,52 @@
+<aura:component controller="DynamicDataTableController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="delRecID" type="string"/>
+     <aura:attribute name="noRefresh" type="Boolean"/>
+    <style>
+        .slds-spinner_container-hide { visibility: hidden;}
+    </style>
+    <div class="slds">
+        <div aria-hidden="true" role="dialog" class="slds-modal slds-modal--large slds-fade-in-open customDivWidth" aura:id="deleteModalBox">
+            <div class="slds-modal__container marginTop150">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.hidemodalBox}">
+                        <c:svg class="slds-button__icon slds-button__icon--large"
+                                xlinkHref="/resource/lightningOpsPlan_V1/assets/icons/action-sprite/svg/symbols.svg#close"
+                                ariaHidden="true"
+                                />
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading--medium slds-text-align--left">Delete Item</h2>
+                </div>
+                
+                <div class="slds-modal__content slds-p-around--medium">                  
+                        
+                        <div class="container">
+                            <form class="slds-form--stacked slds-p-around--small">  
+                                <div class="slds-form-element__control slds-size--1-of-1 slds-p-around--small ">                                                                                                       
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-form-element__label spanFontSize" aria-label="select-1" style="margin-right:45px; font-weight:bold; font-size:14px;">Are you sure you want to Delete?</span>                              
+                                            </div> 
+                                    </div>                                                                            
+                            </form>
+                        </div>                    
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--neutral slds-button--brand btnSave" onclick="{!c.deleteRecConfirmation}"  data-dismiss="mymodal">Yes</button>
+                    <button class="slds-button slds-button--neutral btnCancel" onclick="{!c.hidemodalBox}">No</button>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open" aura:id="backdrop1">
+    </div>
+    <div aura:id="spinner" class="slds-spinner_container slds-spinner_container-hide" style="position: fixed;">
+        <div class="slds-spinner slds-spinner--medium" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+</aura:component>

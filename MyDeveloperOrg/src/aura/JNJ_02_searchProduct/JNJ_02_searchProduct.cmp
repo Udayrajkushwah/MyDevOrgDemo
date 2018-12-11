@@ -1,0 +1,38 @@
+<aura:component controller="JNJ_02_ProductListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+				            access="global" >
+
+    <aura:attribute name="products" type="Product2[]"/>
+    <aura:attribute name="productsSelected" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:SearchKeyChange" action="{!c.searchKeyChange}"/>
+    <lightning:card>
+    <div>
+        <input type="text" class="form-control"
+                placeholder="Search" onkeyup="{!c.searchKeyChange}"/>
+    </div>
+
+    <ul>
+        <aura:iteration items="{!v.products}" var="product" indexVar="ind">
+            <li>         
+                             <a href="javascript:void(0);" tabindex="-1" onclick="{!c.select}" id="{!product.Name}">
+                                    <ui:outputText class="" value="{!product.Name}"/>
+                               </a>  
+               
+            </li>
+        </aura:iteration>
+    </ul>
+    </lightning:card>
+    
+    <lightning:card>
+     <ul>
+        <aura:iteration items="{!v.productsSelected}" var="product" indexVar="ind">
+            <li> 
+                                     <a href="javascript:void(0);" tabindex="-1" onclick="{!c.Delete}" id="{!product}">
+                                    <ui:outputText class="" value="{!product}"/>
+                </a>
+               </li>
+        </aura:iteration>
+    </ul>
+    </lightning:card>
+</aura:component>

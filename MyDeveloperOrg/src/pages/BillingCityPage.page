@@ -1,0 +1,9 @@
+<apex:page controller="BillingCityController">
+  <apex:PageBlock >
+  <apex:form > 
+       <apex:PageBlockTable value="{!AccountList}" var="a" id="list"> 
+         <apex:column value="{!a.BillingCity}"/> 
+        </apex:PageBlockTable> 
+     </apex:form>
+  </apex:PageBlock>
+</apex:page>

@@ -1,0 +1,146 @@
+<aura:component controller="DynamicDataTableController" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <!--BEGIN: Attribute defined below will be used in DESIGN for USER defined input-->
+    <aura:attribute name="SectionHeaderName" type="string" access="global" description="Define Section Header Name"/>
+    <aura:attribute name="sObjectName" type="String" access="global" description="Define Object API name to load data"/>
+    <aura:attribute name="Queryfields" type="String" access="global" description="Define Feilds API name COMMA Seperated to be displayed"/>
+    <aura:attribute name="whereClaus" type="String" access="global" description="Define where clause if data tabel to be filtered"/>
+    <aura:attribute name="parentLookup" type="string" access="global" description="Define Parent Object API name"/>
+    <!--END: Attribute defined below will be used in DESIGN for USER defined input-->
+    <!--BEGIN: Attribute defined to used at component label-->
+    <aura:attribute name="recordId" type="string" description="Hold the record Id of Parent Object"/>
+    <aura:attribute name="tableHeader" type="Object[]" default="" description="Tabled Header to be displayed on UI"/>
+    <aura:attribute name="ObjectAccess" type="Object" default="" description="Controll Button access"/>
+    <aura:attribute name="sObjectRowData" type="Object[]" access="private"/>
+    <aura:attribute name="sObjectRowDataNew" type="Object[]" access="private"/>
+    <aura:attribute name="sObjectRowDataTemp" type="Object[]" access="private"/>
+    <aura:attribute name="rowDataTemp" type="Object" access="private"/>
+    <aura:attribute name="sObjectCreateRowData" type="Object" access="private"/>
+    <aura:attribute name="edit" access="public" type="Integer" default="0"/>
+    <aura:attribute name="rowEdit" access="public" type="Integer"/>
+    <aura:attribute name="ascDescVal" type="String" default="asc"/>
+    <aura:attribute name="mapRecType" type="Map"/>
+    <aura:attribute name="sortFieldColumn" type="String"/>
+    <aura:attribute name="rowNum" type="integer" default="1"/>
+    <aura:attribute name="recordTypeId" type="string"/>
+    <aura:attribute name="defaultAllRecType" type="Boolean" default="false"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <!--END: Attribute defined to used at component label-->
+    <!--BEGIN: Events -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}"/>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    <aura:handler name="sortEventColumn" event="c:DynamicCustomSortEvent" action="{!c.sortColumn}"/>
+    <aura:handler event="c:DynamicRecordTypeSelectionEvt" name="recodTypeSet" action="{!c.recTypeSelect}" includeFacets="true" phase="bubble"/>
+    <!--END: Events -->
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <!--<aura:if isTrue="{!v.Spinner}">-->
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    <!--</aura:if>-->
+    <!-- Loading spinner end-->   
+    <div class="Headercontainer">
+        <div class="sectionHeaderName">
+            {!v.SectionHeaderName}
+        </div>
+        <div class="buttonSection" style="margin-left:-51%">
+            <aura:if isTrue="{!v.ObjectAccess.isEdit}">
+                <button class="slds-button slds-button_stateful slds-not-selected slds-button_neutral" onclick="{!c.showEdit}" disabled="{!v.edit == 1}">Edit</button>
+            </aura:if>
+            
+            <button class="slds-button slds-button_stateful slds-not-selected slds-button_neutral" onclick="{!c.saveRecords}" disabled="{!v.edit == 0}">Save</button>
+            <button class="slds-button slds-button_stateful slds-not-selected slds-button_neutral" onclick="{!c.cancelEdit}" disabled="{!v.edit == 0}">Cancel</button>
+            
+            <aura:if isTrue="{!v.ObjectAccess.isCreateable}">
+                <button class="slds-button slds-button_stateful slds-not-selected slds-button_neutral" onclick="{!c.addNewRow}">Add New</button>
+            </aura:if>    
+        </div>     
+    </div>  
+    <div class="slds scroll_X_Y">
+        
+        <div>
+            <table class="slds-table slds-table--bordered slds-max-medium-table--stacked">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        
+                        <th class="slds-is-sortable slds-is-resizable slds-is-sorted  slds-cell-shrink" scope="col" >
+                            Action
+                        </th>
+                        
+                        <aura:iteration var="colH" items="{!v.tableHeader}"> 
+                            <aura:if isTrue="{!colH.isAccessible}">
+                                <aura:if isTrue="{!colH.fieldApi != 'id'}">                                 
+                                    <th class="slds-is-sortable slds-is-resizable slds-is-sorted  slds-cell-shrink" scope="col" aria-sort="descending" aria-label="{!colH.fieldValue}">
+                                        <span class="slds-th__action slds-text-link--reset">
+                                            <span class="slds-assistive-text"> </span>
+                                            <!--{!colH.fieldValue}-->
+                                            <c:DynamicCustomSort cssClass="slds-truncate" fieldValue="{!colH.fieldValue}" fieldApi="{!colH.fieldApi}" />
+                                            <div class="slds-icon_container">
+                                                <aura:if isTrue="{!and(v.sortFieldColumn == colH.fieldApi, v.ascDescVal == 'desc')}">
+                                                    <!-- <c:svg class="slds-icon slds-icon-x-small slds-icon-text-default slds-is-sortable__icon" svgPath="/resource/testram__SLDS24/assets/icons/utility-sprite/svg/symbols.svg#arrowdown" category="utility" size="small" name="arrowdown" />-->
+                                                </aura:if>
+                                                <aura:if isTrue="{!and(v.sortFieldColumn == colH.fieldApi, v.ascDescVal == 'asc')}">
+                                                    <!-- <c:svg class="slds-icon slds-icon-x-small slds-icon-text-default slds-is-sortable__icon" svgPath="/resource/testram__SLDS24/assets/icons/utility-sprite/svg/symbols.svg#arrowup" category="utility" size="small" name="arrowup" />-->
+                                                </aura:if>
+                                            </div>
+                                            <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted {!if(v.ascDescVal == 'asc', 'ascending', 'descending')}</span>
+                                        </span>
+                                    </th>
+                                </aura:if>
+                            </aura:if>    
+                        </aura:iteration>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration var="row" items="{!v.sObjectRowData}" indexVar="indx">
+                        <tr class="slds-truncate slds-resizable">
+                            
+                            <aura:if isTrue="{!row.usrRecAcc.HasDeleteAccess}">
+                                <td class="slds-truncate slds-cell-shrink slds-cell-shrink">
+                                    <button class="slds-button slds-button--icon-border-filled iconClass" data-customattribute1="{!row.newRec}" data-customattribute2="{!indx}" data-customattribute="{!row.fields[0].fieldValue}" data-custname="" onclick="{!c.deleteRelatedInfo}" >
+                                        <img src="/resource/lightningDashWeb_V1/assets/icons/utility/delete_60.png" alt="delete" />
+                                        <span class="slds-assistive-text">Delete</span>
+                                    </button>
+                                    
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="slds-truncate slds-cell-shrink slds-cell-shrink">
+                                    </td>
+                                </aura:set>
+                            </aura:if>    
+                            <aura:iteration var="col" items="{!row.fields}">
+                                <aura:if isTrue="{!col.isAccessible}">
+                                    <aura:if isTrue="{!col.fieldApi != 'id'}">
+                                        <td class="slds-truncate slds-cell-shrink slds-cell-shrink">
+                                            <aura:if isTrue="{# and(v.edit ==0,row.usrRecAcc.HasReadAccess)}">
+                                                <c:DynamicTableOutputField cellData="{!col}"/>
+                                            </aura:if>
+                                            <aura:if isTrue="{# and (v.edit ==1,row.usrRecAcc.HasEditAccess)}">
+                                                <c:DynamicTableInputField cellData="{!col}"/>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{# and(v.edit ==1,row.usrRecAcc.HasEditAccess !=true)}">
+                                                        <c:DynamicTableOutputField cellData="{!col}"/>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                    </aura:if>
+                                </aura:if>
+                            </aura:iteration> 
+                            
+                            
+                        </tr>
+                        
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {!v.body}
+</aura:component>

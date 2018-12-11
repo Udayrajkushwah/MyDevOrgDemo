@@ -1,0 +1,5 @@
+<apex:page Controller="c1">
+
+{!myMethod}
+  
+</apex:page>

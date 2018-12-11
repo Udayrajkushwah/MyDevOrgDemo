@@ -1,0 +1,19 @@
+<apex:page controller="UserController">
+  <apex:PageBlock >
+  <apex:form > 
+       <apex:PageBlockTable value="{!UserList}" var="a" id="list"> 
+         <apex:column value="{!a.Name}"/> 
+        </apex:PageBlockTable> 
+     </apex:form>
+  </apex:PageBlock>
+  
+ <apex:form >  
+ <apex:inputText value="{!searchstring}" label="Input"/>   
+  <apex:commandButton value="Search records" action="{!search}"/>  
+   <apex:pageBlock title="Search Result">  
+    <apex:pageblockTable value="{!result}" var="a">  
+     <apex:column value="{!a.Name}"/>  
+    </apex:pageBlockTable>     
+   </apex:pageBlock>   
+  </apex:form> 
+</apex:page>

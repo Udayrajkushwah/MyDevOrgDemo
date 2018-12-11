@@ -1,0 +1,6 @@
+<aura:component >
+    
+    <c:helloHeading />
+    <p>Thug Life</p>
+	
+</aura:component>

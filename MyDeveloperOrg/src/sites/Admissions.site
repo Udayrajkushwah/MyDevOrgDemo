@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomSite xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowHomePage>false</allowHomePage>
+    <allowStandardAnswersPages>false</allowStandardAnswersPages>
+    <allowStandardIdeasPages>false</allowStandardIdeasPages>
+    <allowStandardLookups>false</allowStandardLookups>
+    <allowStandardSearch>false</allowStandardSearch>
+    <authorizationRequiredPage>CommunitiesLogin</authorizationRequiredPage>
+    <bandwidthExceededPage>BandwidthExceeded</bandwidthExceededPage>
+    <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
+    <fileNotFoundPage>FileNotFound</fileNotFoundPage>
+    <genericErrorPage>Exception</genericErrorPage>
+    <inMaintenancePage>InMaintenance</inMaintenancePage>
+    <indexPage>CommunitiesLanding</indexPage>
+    <masterLabel>Admissions</masterLabel>
+    <requireHttps>true</requireHttps>
+    <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
+    <selfRegPage>ApplicationRegistration</selfRegPage>
+    <siteAdmin>udayraj123@force.com</siteAdmin>
+    <siteType>ChatterNetwork</siteType>
+    <subdomain>uday26-developer-edition</subdomain>
+</CustomSite>

@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable">
+    <div id="aura-page">
+        <div class="container">
+            <ui:button label="gotoURL"  aura:id="address" press="{!c.gotoURL}" />
+        </div>
+        <!--<ui:inputText aura:id="address"  maxlength="25" size="20" label="Address" required="true"/><br></br> -->
+       <!--<div class="container">
+            <ui:button label="navigate" aura:id="address" press="{!c.navigate}" />
+        </div>-->
+    </div>
+    <h1 class="slds-p-around--small backgroundGreyColor">
+            <span>&nbsp; &nbsp;</span>
+            <div class=" slds-float--right">
+                <button class="slds-button slds-button--destructive color-background-button-brand-disabled margin-5top"  onclick="{!c.SubmitforApproval}" id="btn">Submit for Approval</button>
+            </div>
+        </h1>
+    <h1 class="slds-p-around--small backgroundGreyColor">
+    <div class="container">
+            <ui:button label="gotoURL"  class="slds-button slds-button--destructive color-background-button-brand-disabled margin-5top" aura:id="address" press="{!c.gotoURL}" />
+        </div>
+        </h1>
+</aura:component>
